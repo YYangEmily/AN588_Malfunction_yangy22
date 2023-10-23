@@ -1,0 +1,14 @@
+---
+title: "yangy22_OriginalHomeworkCode_04"
+author: "Emily Yang"
+date: "`r Sys.Date()`"
+output: 
+  prettydoc::html_pretty:
+    theme: cayman
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
