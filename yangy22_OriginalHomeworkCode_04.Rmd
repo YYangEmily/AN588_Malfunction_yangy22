@@ -29,6 +29,8 @@ The function should return a list containing the members Z (the test statistic),
 
 n <- 1000
 x <- 20
+n2 <- NULL
+x2 <-NULL
 phat <- x/n  # our estimate of pi
 phat
 
@@ -37,10 +39,10 @@ if(n*phat > 5 & n*(1 - phat) > 5) {
     k = 1000) {
     p <- rep(NA, k)  # sets up a vector of empty p values
     for (i in 1:k) {
-        p1 <- 
-        n1 <- length(p1)
-        p2 <- NULL
-        n2 <- NULL
+        p1 <- x/n
+        n1 <- length(n)
+        p2 <- x2/n2
+        n2 <- length(n2)
         p0 <- 0
         if (alternative == "less") {
             p[i] <- pnorm(z, lower.tail = TRUE)  # calculates the associated p value
