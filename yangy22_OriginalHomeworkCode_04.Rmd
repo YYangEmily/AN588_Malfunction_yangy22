@@ -35,34 +35,25 @@ phat <- x/n  # our estimate of pi
 phat
 
 if(n*phat > 5 & n*(1 - phat) > 5) {
-  Zprop<- function(p1, p2, n1, n2, alternative = "two.tailed", alpha = 0.05,
-    k = 1000) {
-    p <- rep(NA, k)  # sets up a vector of empty p values
-    for (i in 1:k) {
+  Zprop<- function(p1, p2, n1, n2, alternative = "two.sided", alpha = 0.05) { {
         p1 <- x/n
         n1 <- length(n)
         p2 <- x2/n2
         n2 <- length(n2)
-        p0 <- 0
-        if (alternative == "less") {
-            p[i] <- pnorm(z, lower.tail = TRUE)  # calculates the associated p value
-            hyp <- "p2 < p1"
-        }
-        if (alternative == "greater") {
-            p[i] <- pnorm(z, lower.tail = FALSE)
-            hyp <- "p1 > p2"
+        pstar <- x+x1/n+n1
+        if (alternative == "one.tailed") {
+            p[i] <- (p1-phat)/sqrt(phat*(1-phat)/n)
         }
         if (alternative == "two.tailed") {
             if (z > 0) {
-                p[i] <- 2 * pnorm(z, lower.tail = FALSE)
+                p[i] <- (p2-p1-phat)/sqrt(pstar*(1-pstar)/(1/n+1/n2))
             }
-            if (z < 0) {
-                p[i] <- 2 * pnorm(z, lower.tail = TRUE)
+          
             }
             hyp <- "p2 ≠ p1"
         }
     }
-}
+
 
 } else {
     Zprop<- function(p1, p2, n1, n2, alternative = "two.tailed", alpha = 0.05,
@@ -96,4 +87,11 @@ if(n*phat > 5 & n*(1 - phat) > 5) {
 
   print("Warning distribution not normal")}
 
+```
+
+## Question 2
+```{r Question 2}
+library(curl)
+f <- curl("https://raw.githubusercontent.com/fuzzyatelin/fuzzyatelin.github.io/master/AN588_Fall23/KamilarAndCooperData.csv")
+d <- read.csv(f, header = TRUE, sep = ",", stringsAsFactors = FALSE)
 ```

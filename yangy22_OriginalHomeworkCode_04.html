@@ -12,7 +12,7 @@
 
 <meta name="author" content="Emily Yang" />
 
-<meta name="date" content="2023-10-23" />
+<meta name="date" content="2023-10-24" />
 
 <title>yangy22_OriginalHomeworkCode_04</title>
 
@@ -141,7 +141,7 @@ pointer-events: auto;
 <section class="page-header">
 <h1 class="title toc-ignore project-name">yangy22_OriginalHomeworkCode_04</h1>
 <h4 class="author project-author">Emily Yang</h4>
-<h4 class="date project-date">2023-10-23</h4>
+<h4 class="date project-date">2023-10-24</h4>
 </section>
 
 
@@ -193,66 +193,64 @@ confidence bounds.</p>
 <span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>phat</span></code></pre></div>
 <pre><code>## [1] 0.02</code></pre>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="cf">if</span>(n<span class="sc">*</span>phat <span class="sc">&gt;</span> <span class="dv">5</span> <span class="sc">&amp;</span> n<span class="sc">*</span>(<span class="dv">1</span> <span class="sc">-</span> phat) <span class="sc">&gt;</span> <span class="dv">5</span>) {</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  Zprop<span class="ot">&lt;-</span> <span class="cf">function</span>(p1, p2, n1, n2, <span class="at">alternative =</span> <span class="st">&quot;two.tailed&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.05</span>,</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>    <span class="at">k =</span> <span class="dv">1000</span>) {</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>    p <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, k)  <span class="co"># sets up a vector of empty p values</span></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>k) {</span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>        p1 <span class="ot">&lt;-</span> x<span class="sc">/</span>n</span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>        n1 <span class="ot">&lt;-</span> <span class="fu">length</span>(n)</span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>        p2 <span class="ot">&lt;-</span> x2<span class="sc">/</span>n2</span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>        n2 <span class="ot">&lt;-</span> <span class="fu">length</span>(n2)</span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>        p0 <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>        <span class="cf">if</span> (alternative <span class="sc">==</span> <span class="st">&quot;less&quot;</span>) {</span>
-<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>            p[i] <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(z, <span class="at">lower.tail =</span> <span class="cn">TRUE</span>)  <span class="co"># calculates the associated p value</span></span>
-<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>            hyp <span class="ot">&lt;-</span> <span class="st">&quot;p2 &lt; p1&quot;</span></span>
-<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>        }</span>
-<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>        <span class="cf">if</span> (alternative <span class="sc">==</span> <span class="st">&quot;greater&quot;</span>) {</span>
-<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a>            p[i] <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(z, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a>            hyp <span class="ot">&lt;-</span> <span class="st">&quot;p1 &gt; p2&quot;</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  Zprop<span class="ot">&lt;-</span> <span class="cf">function</span>(p1, p2, n1, n2, <span class="at">alternative =</span> <span class="st">&quot;two.sided&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.05</span>) { {</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>        p1 <span class="ot">&lt;-</span> x<span class="sc">/</span>n</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>        n1 <span class="ot">&lt;-</span> <span class="fu">length</span>(n)</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>        p2 <span class="ot">&lt;-</span> x2<span class="sc">/</span>n2</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>        n2 <span class="ot">&lt;-</span> <span class="fu">length</span>(n2)</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>        pstar <span class="ot">&lt;-</span> x<span class="sc">+</span>x1<span class="sc">/</span>n<span class="sc">+</span>n1</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>        <span class="cf">if</span> (alternative <span class="sc">==</span> <span class="st">&quot;one.tailed&quot;</span>) {</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>            p[i] <span class="ot">&lt;-</span> (p1<span class="sc">-</span>phat)<span class="sc">/</span><span class="fu">sqrt</span>(phat<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>phat)<span class="sc">/</span>n)</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>        }</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>        <span class="cf">if</span> (alternative <span class="sc">==</span> <span class="st">&quot;two.tailed&quot;</span>) {</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>            <span class="cf">if</span> (z <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>                p[i] <span class="ot">&lt;-</span> (p2<span class="sc">-</span>p1<span class="sc">-</span>phat)<span class="sc">/</span><span class="fu">sqrt</span>(pstar<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>pstar)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">/</span>n<span class="sc">+</span><span class="dv">1</span><span class="sc">/</span>n2))</span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>            }</span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>          </span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a>            }</span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a>            hyp <span class="ot">&lt;-</span> <span class="st">&quot;p2 ≠ p1&quot;</span></span>
 <span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a>        }</span>
-<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a>        <span class="cf">if</span> (alternative <span class="sc">==</span> <span class="st">&quot;two.tailed&quot;</span>) {</span>
-<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a>            <span class="cf">if</span> (z <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
-<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a>                p[i] <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pnorm</span>(z, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a>            }</span>
-<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a>            <span class="cf">if</span> (z <span class="sc">&lt;</span> <span class="dv">0</span>) {</span>
-<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a>                p[i] <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pnorm</span>(z, <span class="at">lower.tail =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a>            }</span>
-<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a>            hyp <span class="ot">&lt;-</span> <span class="st">&quot;p2 ≠ p1&quot;</span></span>
-<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a>        }</span>
-<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a>    }</span>
-<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a>}</span>
-<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a></span>
-<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a>    Zprop<span class="ot">&lt;-</span> <span class="cf">function</span>(p1, p2, n1, n2, <span class="at">alternative =</span> <span class="st">&quot;two.tailed&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.05</span>,</span>
-<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a>    <span class="at">k =</span> <span class="dv">1000</span>) {</span>
-<span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a>    p <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, k)  <span class="co"># sets up a vector of empty p values</span></span>
-<span id="cb3-35"><a href="#cb3-35" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>k) {</span>
-<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a>        p1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> n, <span class="at">mean =</span> n2, <span class="at">sd =</span> sigma)</span>
-<span id="cb3-37"><a href="#cb3-37" tabindex="-1"></a>        n1 <span class="ot">&lt;-</span> <span class="fu">length</span>(p1)</span>
-<span id="cb3-38"><a href="#cb3-38" tabindex="-1"></a>        p2 <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb3-39"><a href="#cb3-39" tabindex="-1"></a>        n2 <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb3-40"><a href="#cb3-40" tabindex="-1"></a>        p0 <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb3-41"><a href="#cb3-41" tabindex="-1"></a>        <span class="cf">if</span> (alternative <span class="sc">==</span> <span class="st">&quot;less&quot;</span>) {</span>
-<span id="cb3-42"><a href="#cb3-42" tabindex="-1"></a>            p[i] <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(z, <span class="at">lower.tail =</span> <span class="cn">TRUE</span>)  <span class="co"># calculates the associated p value</span></span>
-<span id="cb3-43"><a href="#cb3-43" tabindex="-1"></a>            hyp <span class="ot">&lt;-</span> <span class="st">&quot;p2 &lt; p1&quot;</span></span>
-<span id="cb3-44"><a href="#cb3-44" tabindex="-1"></a>        }</span>
-<span id="cb3-45"><a href="#cb3-45" tabindex="-1"></a>        <span class="cf">if</span> (alternative <span class="sc">==</span> <span class="st">&quot;greater&quot;</span>) {</span>
-<span id="cb3-46"><a href="#cb3-46" tabindex="-1"></a>            p[i] <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(z, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb3-47"><a href="#cb3-47" tabindex="-1"></a>            hyp <span class="ot">&lt;-</span> <span class="st">&quot;p1 &gt; p2&quot;</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a>    }</span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a>    Zprop<span class="ot">&lt;-</span> <span class="cf">function</span>(p1, p2, n1, n2, <span class="at">alternative =</span> <span class="st">&quot;two.tailed&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.05</span>,</span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a>    <span class="at">k =</span> <span class="dv">1000</span>) {</span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a>    p <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, k)  <span class="co"># sets up a vector of empty p values</span></span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>k) {</span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a>        p1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> n, <span class="at">mean =</span> n2, <span class="at">sd =</span> sigma)</span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a>        n1 <span class="ot">&lt;-</span> <span class="fu">length</span>(p1)</span>
+<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a>        p2 <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a>        n2 <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a>        p0 <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a>        <span class="cf">if</span> (alternative <span class="sc">==</span> <span class="st">&quot;less&quot;</span>) {</span>
+<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a>            p[i] <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(z, <span class="at">lower.tail =</span> <span class="cn">TRUE</span>)  <span class="co"># calculates the associated p value</span></span>
+<span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a>            hyp <span class="ot">&lt;-</span> <span class="st">&quot;p2 &lt; p1&quot;</span></span>
+<span id="cb3-35"><a href="#cb3-35" tabindex="-1"></a>        }</span>
+<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a>        <span class="cf">if</span> (alternative <span class="sc">==</span> <span class="st">&quot;greater&quot;</span>) {</span>
+<span id="cb3-37"><a href="#cb3-37" tabindex="-1"></a>            p[i] <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(z, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb3-38"><a href="#cb3-38" tabindex="-1"></a>            hyp <span class="ot">&lt;-</span> <span class="st">&quot;p1 &gt; p2&quot;</span></span>
+<span id="cb3-39"><a href="#cb3-39" tabindex="-1"></a>        }</span>
+<span id="cb3-40"><a href="#cb3-40" tabindex="-1"></a>        <span class="cf">if</span> (alternative <span class="sc">==</span> <span class="st">&quot;two.tailed&quot;</span>) {</span>
+<span id="cb3-41"><a href="#cb3-41" tabindex="-1"></a>            <span class="cf">if</span> (z <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb3-42"><a href="#cb3-42" tabindex="-1"></a>                p[i] <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pnorm</span>(z, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb3-43"><a href="#cb3-43" tabindex="-1"></a>            }</span>
+<span id="cb3-44"><a href="#cb3-44" tabindex="-1"></a>            <span class="cf">if</span> (z <span class="sc">&lt;</span> <span class="dv">0</span>) {</span>
+<span id="cb3-45"><a href="#cb3-45" tabindex="-1"></a>                p[i] <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pnorm</span>(z, <span class="at">lower.tail =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-46"><a href="#cb3-46" tabindex="-1"></a>            }</span>
+<span id="cb3-47"><a href="#cb3-47" tabindex="-1"></a>            hyp <span class="ot">&lt;-</span> <span class="st">&quot;p2 ≠ p1&quot;</span></span>
 <span id="cb3-48"><a href="#cb3-48" tabindex="-1"></a>        }</span>
-<span id="cb3-49"><a href="#cb3-49" tabindex="-1"></a>        <span class="cf">if</span> (alternative <span class="sc">==</span> <span class="st">&quot;two.tailed&quot;</span>) {</span>
-<span id="cb3-50"><a href="#cb3-50" tabindex="-1"></a>            <span class="cf">if</span> (z <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
-<span id="cb3-51"><a href="#cb3-51" tabindex="-1"></a>                p[i] <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pnorm</span>(z, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb3-52"><a href="#cb3-52" tabindex="-1"></a>            }</span>
-<span id="cb3-53"><a href="#cb3-53" tabindex="-1"></a>            <span class="cf">if</span> (z <span class="sc">&lt;</span> <span class="dv">0</span>) {</span>
-<span id="cb3-54"><a href="#cb3-54" tabindex="-1"></a>                p[i] <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pnorm</span>(z, <span class="at">lower.tail =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb3-55"><a href="#cb3-55" tabindex="-1"></a>            }</span>
-<span id="cb3-56"><a href="#cb3-56" tabindex="-1"></a>            hyp <span class="ot">&lt;-</span> <span class="st">&quot;p2 ≠ p1&quot;</span></span>
-<span id="cb3-57"><a href="#cb3-57" tabindex="-1"></a>        }</span>
-<span id="cb3-58"><a href="#cb3-58" tabindex="-1"></a>    }</span>
-<span id="cb3-59"><a href="#cb3-59" tabindex="-1"></a>}</span>
-<span id="cb3-60"><a href="#cb3-60" tabindex="-1"></a></span>
-<span id="cb3-61"><a href="#cb3-61" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&quot;Warning distribution not normal&quot;</span>)}</span></code></pre></div>
+<span id="cb3-49"><a href="#cb3-49" tabindex="-1"></a>    }</span>
+<span id="cb3-50"><a href="#cb3-50" tabindex="-1"></a>}</span>
+<span id="cb3-51"><a href="#cb3-51" tabindex="-1"></a></span>
+<span id="cb3-52"><a href="#cb3-52" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&quot;Warning distribution not normal&quot;</span>)}</span></code></pre></div>
+</div>
+<div id="question-2" class="section level2">
+<h2>Question 2</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">library</span>(curl)</span></code></pre></div>
+<pre><code>## Using libcurl 8.1.2 with LibreSSL/3.3.6</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">curl</span>(<span class="st">&quot;https://raw.githubusercontent.com/fuzzyatelin/fuzzyatelin.github.io/master/AN588_Fall23/KamilarAndCooperData.csv&quot;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(f, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 </div>
 </section>
 
