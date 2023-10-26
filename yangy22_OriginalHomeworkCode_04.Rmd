@@ -92,6 +92,12 @@ if(n*phat > 5 & n*(1 - phat) > 5) {
 ## Question 2
 ```{r Question 2}
 library(curl)
+library(ggplot2)
 f <- curl("https://raw.githubusercontent.com/fuzzyatelin/fuzzyatelin.github.io/master/AN588_Fall23/KamilarAndCooperData.csv")
 d <- read.csv(f, header = TRUE, sep = ",", stringsAsFactors = FALSE)
+head(d)
+e <- cbind(d$MaxLongevity_m, d$Brain_Size_Species_Mean)
+f <- na.omit(e)
+g <- as.factor(f)
+
 ```
