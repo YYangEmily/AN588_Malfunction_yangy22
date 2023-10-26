@@ -98,20 +98,10 @@ library(tidyverse)
 f <- curl("https://raw.githubusercontent.com/fuzzyatelin/fuzzyatelin.github.io/master/AN588_Fall23/KamilarAndCooperData.csv")
 d <- read.csv(f, header = TRUE, sep = ",", stringsAsFactors = FALSE)
 
-filter(d, col == "MaxLongevity_m" | col == "Brain_Size_Species_Mean")  %>% 
-   na.omit()
-h <- df$MaxLongevity_m
-w <- df$Brain_Size_Species_Mean
-y <- h - mean(h)
-x <- w - mean(w)
-z <- data.frame(cbind(x, y))
-g <- ggplot(data = z, aes(x = x, y = y)) 
-g
-
-m <- lm( MaxLongevity_m ~ Brain_Size_Species_Mean , data = df)
+m <- lm( MaxLongevity_m ~ Brain_Size_Species_Mean , data = d)
 m
 g <- ggplot(data = d, aes(x = MaxLongevity_m, y = Brain_Size_Species_Mean))
 g <- g + geom_point()
 g <- g + geom_smooth(method = "lm", formula = y ~ x)
-g
+g <- g + annotate
 ```

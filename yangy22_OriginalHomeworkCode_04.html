@@ -254,22 +254,12 @@ confidence bounds.</p>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">curl</span>(<span class="st">&quot;https://raw.githubusercontent.com/fuzzyatelin/fuzzyatelin.github.io/master/AN588_Fall23/KamilarAndCooperData.csv&quot;</span>)</span>
 <span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(f, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="fu">filter</span>(d, col <span class="sc">==</span> <span class="st">&quot;MaxLongevity_m&quot;</span> <span class="sc">|</span> col <span class="sc">==</span> <span class="st">&quot;Brain_Size_Species_Mean&quot;</span>)  <span class="sc">%&gt;%</span> </span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>   <span class="fu">na.omit</span>()</span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>h <span class="ot">&lt;-</span> df<span class="sc">$</span>MaxLongevity_m</span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>w <span class="ot">&lt;-</span> df<span class="sc">$</span>Brain_Size_Species_Mean</span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>y <span class="ot">&lt;-</span> h <span class="sc">-</span> <span class="fu">mean</span>(h)</span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>x <span class="ot">&lt;-</span> w <span class="sc">-</span> <span class="fu">mean</span>(w)</span>
-<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">cbind</span>(x, y))</span>
-<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> z, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) </span>
-<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>g</span>
-<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a></span>
-<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">lm</span>( MaxLongevity_m <span class="sc">~</span> Brain_Size_Species_Mean , <span class="at">data =</span> df)</span>
-<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>m</span>
-<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> d, <span class="fu">aes</span>(<span class="at">x =</span> MaxLongevity_m, <span class="at">y =</span> Brain_Size_Species_Mean))</span>
-<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a>g <span class="ot">&lt;-</span> g <span class="sc">+</span> <span class="fu">geom_point</span>()</span>
-<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a>g <span class="ot">&lt;-</span> g <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x)</span>
-<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a>g</span></code></pre></div>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">lm</span>( MaxLongevity_m <span class="sc">~</span> Brain_Size_Species_Mean , <span class="at">data =</span> d)</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>m</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> d, <span class="fu">aes</span>(<span class="at">x =</span> MaxLongevity_m, <span class="at">y =</span> Brain_Size_Species_Mean))</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>g <span class="ot">&lt;-</span> g <span class="sc">+</span> <span class="fu">geom_point</span>()</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>g <span class="ot">&lt;-</span> g <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x)</span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>g <span class="ot">&lt;-</span> g <span class="sc">+</span> annotate</span></code></pre></div>
 </div>
 </section>
 
