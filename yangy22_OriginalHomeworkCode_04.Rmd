@@ -56,34 +56,24 @@ if(n*phat > 5 & n*(1 - phat) > 5) {
 
 
 } else {
-    Zprop<- function(p1, p2, n1, n2, alternative = "two.tailed", alpha = 0.05,
-    k = 1000) {
-    p <- rep(NA, k)  # sets up a vector of empty p values
-    for (i in 1:k) {
-        p1 <- rnorm(n = n, mean = n2, sd = sigma)
-        n1 <- length(p1)
-        p2 <- NULL
-        n2 <- NULL
-        p0 <- 0
-        if (alternative == "less") {
-            p[i] <- pnorm(z, lower.tail = TRUE)  # calculates the associated p value
-            hyp <- "p2 < p1"
-        }
-        if (alternative == "greater") {
-            p[i] <- pnorm(z, lower.tail = FALSE)
-            hyp <- "p1 > p2"
+     Zprop<- function(p1, p2, n1, n2, alternative = "two.sided", alpha = 0.05) { {
+        p1 <- x/n
+        n1 <- length(n)
+        p2 <- x2/n2
+        n2 <- length(n2)
+        pstar <- x+x1/n+n1
+        if (alternative == "one.tailed") {
+            p[i] <- (p1-phat)/sqrt(phat*(1-phat)/n)
         }
         if (alternative == "two.tailed") {
             if (z > 0) {
-                p[i] <- 2 * pnorm(z, lower.tail = FALSE)
+                p[i] <- (p2-p1-phat)/sqrt(pstar*(1-pstar)/(1/n+1/n2))
             }
-            if (z < 0) {
-                p[i] <- 2 * pnorm(z, lower.tail = TRUE)
+          
             }
             hyp <- "p2 ≠ p1"
         }
     }
-}
 
   print("Warning distribution not normal")}
 
@@ -100,8 +90,15 @@ d <- read.csv(f, header = TRUE, sep = ",", stringsAsFactors = FALSE)
 
 m <- lm( MaxLongevity_m ~ Brain_Size_Species_Mean , data = d)
 m
-g <- ggplot(data = d, aes(x = MaxLongevity_m, y = Brain_Size_Species_Mean))
+g <- ggplot(data = m, aes(x = MaxLongevity_m, y = Brain_Size_Species_Mean))
 g <- g + geom_point()
 g <- g + geom_smooth(method = "lm", formula = y ~ x)
-g <- g + annotate
+g
+
+n <- lm(log(MaxLongevity_m) ~ log(Brain_Size_Species_Mean) , data = d)
+n
+g <- ggplot(data = n, aes(x = MaxLongevity_m, y = Brain_Size_Species_Mean))
+g <- g + geom_point()
+g <- g + geom_smooth(method = "lm", formula = y ~ x)
+g
 ```
