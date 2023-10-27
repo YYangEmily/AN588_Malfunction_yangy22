@@ -31,7 +31,7 @@ n <- 1000
 x <- 20
 n2 <- NULL
 x2 <-NULL
-phat <- x/n  # our estimate of pi
+phat <- x/n  # estimate pi
 phat
 
 if(n*phat > 5 & n*(1 - phat) > 5) {
@@ -78,6 +78,7 @@ if(n*phat > 5 & n*(1 - phat) > 5) {
   print("Warning distribution not normal")}
 
 ```
+I cobbled this together from a bunch of modules but I'm not sure how to test it.
 
 ## Question 2
 ```{r Question 2, eval=FALSE}
@@ -95,10 +96,15 @@ g <- g + geom_point()
 g <- g + geom_smooth(method = "lm", formula = y ~ x)
 g
 
-n <- lm(log(MaxLongevity_m) ~ log(Brain_Size_Species_Mean) , data = d)
+a<- log(d$MaxLongevity_m)
+b<- log(d$Brain_Size_Species_Mean)
+n <- lm(a ~ b)
 n
-g <- ggplot(data = n, aes(x = MaxLongevity_m, y = Brain_Size_Species_Mean))
+g <- ggplot(data = n, aes(x = a, y = b))
 g <- g + geom_point()
 g <- g + geom_smooth(method = "lm", formula = y ~ x)
 g
 ```
+
+
+I struggled really hard on this homework. I thought I had to do the regression by hand and wasted a lot of time on that. I'm going to office hours on Monday. 

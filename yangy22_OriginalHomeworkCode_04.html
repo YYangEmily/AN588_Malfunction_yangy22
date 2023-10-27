@@ -12,7 +12,7 @@
 
 <meta name="author" content="Emily Yang" />
 
-<meta name="date" content="2023-10-26" />
+<meta name="date" content="2023-10-27" />
 
 <title>yangy22_OriginalHomeworkCode_04</title>
 
@@ -141,7 +141,7 @@ pointer-events: auto;
 <section class="page-header">
 <h1 class="title toc-ignore project-name">yangy22_OriginalHomeworkCode_04</h1>
 <h4 class="author project-author">Emily Yang</h4>
-<h4 class="date project-date">2023-10-26</h4>
+<h4 class="date project-date">2023-10-27</h4>
 </section>
 
 
@@ -189,7 +189,7 @@ confidence bounds.</p>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">20</span></span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>n2 <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>x2 <span class="ot">&lt;-</span><span class="cn">NULL</span></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>phat <span class="ot">&lt;-</span> x<span class="sc">/</span>n  <span class="co"># our estimate of pi</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>phat <span class="ot">&lt;-</span> x<span class="sc">/</span>n  <span class="co"># estimate pi</span></span>
 <span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>phat</span></code></pre></div>
 <pre><code>## [1] 0.02</code></pre>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="cf">if</span>(n<span class="sc">*</span>phat <span class="sc">&gt;</span> <span class="dv">5</span> <span class="sc">&amp;</span> n<span class="sc">*</span>(<span class="dv">1</span> <span class="sc">-</span> phat) <span class="sc">&gt;</span> <span class="dv">5</span>) {</span>
@@ -234,6 +234,8 @@ confidence bounds.</p>
 <span id="cb3-40"><a href="#cb3-40" tabindex="-1"></a>    }</span>
 <span id="cb3-41"><a href="#cb3-41" tabindex="-1"></a></span>
 <span id="cb3-42"><a href="#cb3-42" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&quot;Warning distribution not normal&quot;</span>)}</span></code></pre></div>
+<p>I cobbled this together from a bunch of modules but I’m not sure how
+to test it.</p>
 </div>
 <div id="question-2" class="section level2">
 <h2>Question 2</h2>
@@ -251,12 +253,17 @@ confidence bounds.</p>
 <span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>g <span class="ot">&lt;-</span> g <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x)</span>
 <span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>g</span>
 <span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a></span>
-<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(MaxLongevity_m) <span class="sc">~</span> <span class="fu">log</span>(Brain_Size_Species_Mean) , <span class="at">data =</span> d)</span>
-<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>n</span>
-<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> n, <span class="fu">aes</span>(<span class="at">x =</span> MaxLongevity_m, <span class="at">y =</span> Brain_Size_Species_Mean))</span>
-<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>g <span class="ot">&lt;-</span> g <span class="sc">+</span> <span class="fu">geom_point</span>()</span>
-<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>g <span class="ot">&lt;-</span> g <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x)</span>
-<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a>g</span></code></pre></div>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>a<span class="ot">&lt;-</span> <span class="fu">log</span>(d<span class="sc">$</span>MaxLongevity_m)</span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>b<span class="ot">&lt;-</span> <span class="fu">log</span>(d<span class="sc">$</span>Brain_Size_Species_Mean)</span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">lm</span>(a <span class="sc">~</span> b)</span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>n</span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> n, <span class="fu">aes</span>(<span class="at">x =</span> a, <span class="at">y =</span> b))</span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a>g <span class="ot">&lt;-</span> g <span class="sc">+</span> <span class="fu">geom_point</span>()</span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a>g <span class="ot">&lt;-</span> g <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x)</span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a>g</span></code></pre></div>
+<p>I struggled really hard on this homework. I thought I had to do the
+regression by hand and wasted a lot of time on that. I’m going to office
+hours on Monday.</p>
 </div>
 </section>
 
