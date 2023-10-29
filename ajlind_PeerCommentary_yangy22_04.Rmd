@@ -1,0 +1,115 @@
+---
+title: "ajlind_PeerCommentary_yangy22_04"
+author: "Angelique J. Lindberg"
+date: "`r Sys.Date()`"
+output: html_document
+---
+**Hi! My comments will be bolded and/or signed with my initials. Best, Angelique**
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Problem 1
+
+Write a simple R function, Z.prop.test(), that can perform one- or two-sample Z-tests for proportion data, using the following guidelines:
+
+Your function should take the following arguments: p1 and n1 (no default) representing the estimated proportion and sample size (i.e., based on your sample data); p2 and n2 (both defaulting to NULL) that contain a second sample’s proportion and sample size data in the event of a two-sample test; p0 (no default) as the expected value for the population proportion; and alternative (default “two.sided”) and conf.level (default 0.95), to be used in the same way as in the function t.test().
+
+Your function should take the following arguments: p1 and n1 (no default) representing the estimated proportion and sample size (i.e., based on your sample data); p2 and n2 (both defaulting to NULL) that contain a second sample’s proportion and sample size data in the event of a two-sample test; p0 (no default) as the expected value for the population proportion; and alternative (default “two.sided”) and conf.level (default 0.95), to be used in the same way as in the function t.test().
+
+When conducting a two-sample test, it should be p1 that is tested as being smaller or larger than p2 when alternative=“less” or alternative=“greater”, the same as in the use of x and y in the function t.test().
+The function should perform a one-sample Z-test using p1, n1, and p0 if either p2 or n2 (or both) is NULL.
+The function should contain a check for the rules of thumb we have talked about (n∗p>5
+ and n∗(1−p)>5
+) to ensure the validity of assuming the normal distribution in both the one- and two-sample settings. If this is violated, the function should still complete but it should also print an appropriate warning message.
+The function should return a list containing the members Z (the test statistic), P (the appropriate p value), and CI (the two-sided CI with respect to “conf.level” around p1 in the case of a one-sample test and around p2-p1 in the case of a two-sample test). For all test alternatives (“two.sided”, “greater”, “less”), calculate symmetric CIs based on quantiles of the normal distribution rather than worrying about calculating single-limit confidence bounds.
+
+**Let's add some commentary here and maybe within the code to help explain what you're doing.-AJL**
+```{r Zprop}
+
+n <- 1000 #LIKE I'm confused where you're getting these numbers, commentary would help  -AJL
+x <- 20
+n2 <- NULL
+x2 <-NULL
+phat <- x/n  # estimate pi      #I DON'T know nearly enough to say this won't work but he also gave us an estimatated proportion variable of p0 -AJL
+phat
+
+if(n*phat > 5 & n*(1 - phat) > 5) {
+  Zprop<- function(p1, p2, n1, n2, alternative = "two.sided", alpha = 0.05) { { #you forgot p0 and conf.level as arguments -AJL
+        p1 <- x/n
+        n1 <- length(n)
+        p2 <- x2/n2
+        n2 <- length(n2)
+        pstar <- x+x1/n+n1 #I DON'T think you're variables are sel-consistent, shouldn't it be x2 and n2
+        if (alternative == "one.tailed") {
+            p[i] <- (p1-phat)/sqrt(phat*(1-phat)/n)
+        }
+        if (alternative == "two.tailed") {
+            if (z > 0) {
+                p[i] <- (p2-p1-phat)/sqrt(pstar*(1-pstar)/(1/n+1/n2))
+            }
+          
+            }
+            hyp <- "p2 ≠ p1"
+        }
+    }
+
+
+} else {
+     Zprop<- function(p1, p2, n1, n2, alternative = "two.sided", alpha = 0.05) { {
+        p1 <- x/n
+        n1 <- length(n)
+        p2 <- x2/n2
+        n2 <- length(n2)
+        pstar <- x+x1/n+n1
+        if (alternative == "one.tailed") {
+            p[i] <- (p1-phat)/sqrt(phat*(1-phat)/n)
+        }
+        if (alternative == "two.tailed") {
+            if (z > 0) {
+                p[i] <- (p2-p1-phat)/sqrt(pstar*(1-pstar)/(1/n+1/n2))
+            }
+          
+            }
+            hyp <- "p2 ≠ p1" #confused what is this doing -AJL
+        }
+    }
+
+  print("Warning distribution not normal")} #Won't this structure make it so that the function won't run if the distribution isn't normal? He wanted it to run just also print the error -AJL
+
+```
+I cobbled this together from a bunch of modules but I'm not sure how to test it.
+
+**Yeah, I also had no idea how to do this, but I'm very impressed yours even runs, mine has some weird error. I added some notes to the code (tried to capitalize the first word, but definitely forgot some), but I'm sorry to say I don't have many ideas of how to practically implement them since you seem to be better at function building than me. Hope they help somehow! -AJL**
+
+## Question 2
+**I suggest adding question 2 instructions and commentary,  also splitting up some of this code so we can see each part of the answers -AJL**
+```{r Question 2, eval=FALSE}
+library(curl)
+library(ggplot2)
+library(tidyverse)
+
+f <- curl("https://raw.githubusercontent.com/fuzzyatelin/fuzzyatelin.github.io/master/AN588_Fall23/KamilarAndCooperData.csv")
+d <- read.csv(f, header = TRUE, sep = ",", stringsAsFactors = FALSE)
+
+m <- lm( MaxLongevity_m ~ Brain_Size_Species_Mean , data = d)
+m
+g <- ggplot(data = m, aes(x = MaxLongevity_m, y = Brain_Size_Species_Mean))
+g <- g + geom_point()
+g <- g + geom_smooth(method = "lm", formula = y ~ x) #don't forget to add the equation on top, I personally used the lm equation to get the slope and intercept then just wrote it on top like a label, geom_text didn't work for me though, I used annotate -AJL
+g
+
+a<- log(d$MaxLongevity_m)
+b<- log(d$Brain_Size_Species_Mean)
+n <- lm(a ~ b)
+n
+g <- ggplot(data = n, aes(x = a, y = b))
+g <- g + geom_point()
+g <- g + geom_smooth(method = "lm", formula = y ~ x)
+g
+```
+
+
+I struggled really hard on this homework. I thought I had to do the regression by hand and wasted a lot of time on that. I'm going to office hours on Monday. 
+
+**Ouch, I'm sorry, I hope office hours helps and my comments help. Overall, I think we're on a similar track with what we were able to do if that makes you feel better! I think putting in the instructions and breaking up the code with their respective questions will help so that it's clearer what you have done versus not done versus tried but didn't work (side note: totally get you're still working but I noted where I found missing components). -AJL**
