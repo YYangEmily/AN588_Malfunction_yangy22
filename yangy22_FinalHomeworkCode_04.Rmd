@@ -27,16 +27,12 @@ The function should contain a check for the rules of thumb we have talked about 
 The function should return a list containing the members Z (the test statistic), P (the appropriate p value), and CI (the two-sided CI with respect to “conf.level” around p1 in the case of a one-sample test and around p2-p1 in the case of a two-sample test). For all test alternatives (“two.sided”, “greater”, “less”), calculate symmetric CIs based on quantiles of the normal distribution rather than worrying about calculating single-limit confidence bounds.
 ```{r Zprop}
 
-n <- 1000
-x <- 20
 Zprop<- function(p1, p2=NULL, n1, n2=NULL, p0, alternative = "two.sided", alpha = 0.05)
 if(n * p0 > 5 && n * (1 - p0) > 5) {
    { {
-        p1 <- x/n
-        n1 <- length(n)
-        p2 <- x2/n2
-        n2 <- length(n2)
-        p0 <- x+x1/n+n1
+        x1 <- p1 * n1 
+        x2<- p2 * n2
+        pstar <- x1+x2/n1+n2
         if (alternative == "one.tailed") {
             p[i] <- (p1-p0)/sqrt(p0*(1-p0)/n)
         }
@@ -81,7 +77,7 @@ I cobbled this together from a bunch of modules but I'm not sure how to test it.
 Fit the regression model and, using {ggplot2}, produce a scatterplot with the fitted line superimposed upon the data. Append the the fitted model equation to your plot (HINT: use the function geom_text()).
 
 Using your model, add lines for the 90 percent confidence and prediction interval bands on the plot and add a legend to differentiate between the lines
-```{r Question 2, eval=FALSE}
+```{r Question 2}
 library(curl)
 library(ggplot2)
 library(tidyverse)
@@ -90,11 +86,10 @@ f <- curl("https://raw.githubusercontent.com/fuzzyatelin/fuzzyatelin.github.io/m
 d <- read.csv(f, header = TRUE, sep = ",", stringsAsFactors = FALSE)
 
 # Make the regression
-w <- d$MaxLongevity_m 
-h <- d$Brain_Size_Species_Mean
-m <- lm(w ~ h)
+
+m <- lm(data = d, MaxLongevity_m ~ Brain_Size_Species_Mean)
 m
-g <- ggplot(data = m, aes(x = w, y = h)) 
+g <- ggplot(data = d, aes(x = MaxLongevity_m, y = Brain_Size_Species_Mean)) 
 g <- g +labs(title="Regression of MaxLongevity ~ Brain_Size_Species_Mean",
         x ="MaxLongevity_m", y = "Brain_Size_Species_Mean")
 g <- g + geom_point()
@@ -105,13 +100,11 @@ g <- g + geom_abline(intercept = 267.36379, slope = 1.40041, color = "red")
 g
 
 # Regression of log version
-a<- log(d$MaxLongevity_m)
-b<- log(d$Brain_Size_Species_Mean)
-n <- lm(a ~ b)
+
+n <- lm(data=d, log(MaxLongevity_m) ~ log(Brain_Size_Species_Mean))
 n
-g <- ggplot(data = n, aes(x = a, y = b))
-g <- g +labs(title="Regression of log(MaxLongevity) ~ log(Brain_Size_Species_Mean)",
-        x ="log(MaxLongevity_m)", y = "log(Brain_Size_Species_Mean)")
+g <- ggplot(data = d, aes(x = log(MaxLongevity_m), y = log(Brain_Size_Species_Mean)))
+g <- g + labs(title="Regression of log(MaxLongevity) ~ log(Brain_Size_Species_Mean)", x ="log(MaxLongevity_m)", y = "log(Brain_Size_Species_Mean)")
 g <- g + geom_point()
 g <- g + geom_smooth(method = "lm", formula = y ~ x)
 g <- g + annotate("text", x = 5, y = 3, label = "y=4.8790x+0.2341")
@@ -128,35 +121,32 @@ Identify and interpret the point estimate of the slope (β1
  = 0; HA: β1
  ≠ 0. Also, find a 90 percent CI for the slope (β1
 ) parameter.
-```{r CI, eval=FALSE}
-# Calculating beta1
-w <- d$MaxLongevity_m 
-h <- d$Brain_Size_Species_Mean
-beta1 <- cov(w, h)/var(w)
+```{r CI}
+# Calculating beta1 
+beta1 <- m$coefficients
 beta1
-a<- log(d$MaxLongevity_m)
-b<- log(d$Brain_Size_Species_Mean)
-beta1 <- cov(a, b)/var(a) # Why does this give NA
+beta1 <- n$coefficients
 beta1
-
 # Confidence interval of MaxLongevity ~ Brain_Size_Species_Mean
-ci <- confint(m, level = 0.90)
+ci <- confint(m, level = 0.90)  # using the results of lm()
 ci
+ci <- confint(n, level = 0.90)  # using the results of lm()
+ci
+pi <- predict(m, newdata = data.frame(d$Brain_Size_Species_Mean), interval = "prediction", level = 0.90)  # for a vector of values
 # Confidence interval of log(MaxLongevity) ~ log(Brain_Size_Species_Mean
-ci <- confint(n, level = 0.90)
-ci
+head(pi)
 
 ```
 Produce a point estimate and associated 90 percent PI for the longevity of a species whose brain weight is 800 gm. Do you trust the model to predict observations accurately for this value of the explanatory variable? Why or why not?
 ```{r prediction, eval=FALSE}
 # Predicting longevity
-pi <- predict(m, newdata = data.frame(w = 800), interval = "prediction",
-    level = 0.90) 
-pi
-pi <- predict(n, newdata = data.frame(b = 800), interval = "prediction",
-    level = 0.90)
-pi
+
+pi1 <- predict(m, newdata = data.frame(Brain_Size_Species_Mean = 800), interval = "prediction", level = 0.90) 
+pi1
+pi2 <- predict(n, newdata = log(Brain_Size_Species_Mean = 800), interval = "prediction", level = 0.90)
+head(pi2)
 ```
+I would not trust this model to accurately predict this because it is too 
 
 Looking at your two models, which do you think is better? Why?<br> 
 I think the log model is better because the error is better explained by the line.
