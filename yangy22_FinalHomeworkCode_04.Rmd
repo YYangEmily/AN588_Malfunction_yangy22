@@ -81,6 +81,17 @@ if(n*phat > 5 & n*(1 - phat) > 5) {
 I cobbled this together from a bunch of modules but I'm not sure how to test it.
 
 ## Question 2
+
+Fit the regression model and, using {ggplot2}, produce a scatterplot with the fitted line superimposed upon the data. Append the the fitted model equation to your plot (HINT: use the function geom_text()).
+Identify and interpret the point estimate of the slope (β1
+), as well as the outcome of the test associated with the hypotheses H0: β1
+ = 0; HA: β1
+ ≠ 0. Also, find a 90 percent CI for the slope (β1
+) parameter.
+Using your model, add lines for the 90 percent confidence and prediction interval bands on the plot and add a legend to differentiate between the lines.
+Produce a point estimate and associated 90 percent PI for the longevity of a species whose brain weight is 800 gm. Do you trust the model to predict observations accurately for this value of the explanatory variable? Why or why not?
+Looking at your two models, which do you think is better? Why?
+
 ```{r Question 2, eval=FALSE}
 library(curl)
 library(ggplot2)
