@@ -116,35 +116,35 @@ g
 
 ```
 
-Identify and interpret the point estimate of the slope (β1
-), as well as the outcome of the test associated with the hypotheses H0: β1
- = 0; HA: β1
- ≠ 0. Also, find a 90 percent CI for the slope (β1
-) parameter.
+Identify and interpret the point estimate of the slope (β1), as well as the outcome of the test associated with the hypotheses H0: β1 = 0; HA: β1 ≠ 0. Also, find a 90 percent CI for the slope (β1) parameter.
 ```{r CI}
 # Calculating beta1 
-beta1 <- m$coefficients
-beta1
-beta1 <- n$coefficients
-beta1
-# Confidence interval of MaxLongevity ~ Brain_Size_Species_Mean
-ci <- confint(m, level = 0.90)  # using the results of lm()
-ci
-ci <- confint(n, level = 0.90)  # using the results of lm()
-ci
-pi <- predict(m, newdata = data.frame(d$Brain_Size_Species_Mean), interval = "prediction", level = 0.90)  # for a vector of values
-# Confidence interval of log(MaxLongevity) ~ log(Brain_Size_Species_Mean
-head(pi)
+beta1 <- m$coefficients # Built into lm
+beta1 # B1 is 1.21799
+beta1 <- n$coefficients # Built into lm
+beta1 # B1 is 0.234
 
+#Calculating 90% CI
+ci <- confint(m, level = 0.90)  # Built into lm
+ci
+ci <- confint(n, level = 0.90)  # Built into lm
+ci
+# Prediction interval of MaxLongevity ~ Brain_Size_Species_Mean 
+pi <- predict(m, level = 0.90)  # for a vector of values 
+# Prediction interval of log(MaxLongevity) ~ log(Brain_Size_Species_Mean
+head(pi)
+pi <- predict(n, level = 0.90)
+head(pi)
+# Really not sure how to put the PI bands into the graph
 ```
 Produce a point estimate and associated 90 percent PI for the longevity of a species whose brain weight is 800 gm. Do you trust the model to predict observations accurately for this value of the explanatory variable? Why or why not?
-```{r prediction, eval=FALSE}
+```{r prediction}
 # Predicting longevity
 
 pi1 <- predict(m, newdata = data.frame(Brain_Size_Species_Mean = 800), interval = "prediction", level = 0.90) 
 pi1
-pi2 <- predict(n, newdata = log(Brain_Size_Species_Mean = 800), interval = "prediction", level = 0.90)
-head(pi2)
+pi2 <- predict(n, newdata = data.frame(Brain_Size_Species_Mean = 800), interval = "prediction", level = 0.90)
+pi2
 ```
 I would not trust this model to accurately predict this because it is too 
 
