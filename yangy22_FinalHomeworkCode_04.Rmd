@@ -29,24 +29,20 @@ The function should return a list containing the members Z (the test statistic),
 
 n <- 1000
 x <- 20
-n2 <- NULL
-x2 <-NULL
-phat <- x/n  # estimate pi
-phat
-
-if(n*phat > 5 & n*(1 - phat) > 5) {
-  Zprop<- function(p1, p2, n1, n2, alternative = "two.sided", alpha = 0.05) { {
+Zprop<- function(p1, p2=NULL, n1, n2=NULL, p0, alternative = "two.sided", alpha = 0.05)
+if(n * p0 > 5 && n * (1 - p0) > 5) {
+   { {
         p1 <- x/n
         n1 <- length(n)
         p2 <- x2/n2
         n2 <- length(n2)
-        pstar <- x+x1/n+n1
+        p0 <- x+x1/n+n1
         if (alternative == "one.tailed") {
-            p[i] <- (p1-phat)/sqrt(phat*(1-phat)/n)
+            p[i] <- (p1-p0)/sqrt(p0*(1-p0)/n)
         }
         if (alternative == "two.tailed") {
             if (z > 0) {
-                p[i] <- (p2-p1-phat)/sqrt(pstar*(1-pstar)/(1/n+1/n2))
+                p[i] <- (p2-p1-p0)/sqrt(pstar*(1-pstar)/(1/n+1/n2))
             }
           
             }
@@ -83,15 +79,8 @@ I cobbled this together from a bunch of modules but I'm not sure how to test it.
 ## Question 2
 
 Fit the regression model and, using {ggplot2}, produce a scatterplot with the fitted line superimposed upon the data. Append the the fitted model equation to your plot (HINT: use the function geom_text()).
-Identify and interpret the point estimate of the slope (β1
-), as well as the outcome of the test associated with the hypotheses H0: β1
- = 0; HA: β1
- ≠ 0. Also, find a 90 percent CI for the slope (β1
-) parameter.
-Using your model, add lines for the 90 percent confidence and prediction interval bands on the plot and add a legend to differentiate between the lines.
-Produce a point estimate and associated 90 percent PI for the longevity of a species whose brain weight is 800 gm. Do you trust the model to predict observations accurately for this value of the explanatory variable? Why or why not?
-Looking at your two models, which do you think is better? Why?
 
+Using your model, add lines for the 90 percent confidence and prediction interval bands on the plot and add a legend to differentiate between the lines
 ```{r Question 2, eval=FALSE}
 library(curl)
 library(ggplot2)
@@ -100,19 +89,71 @@ library(tidyverse)
 f <- curl("https://raw.githubusercontent.com/fuzzyatelin/fuzzyatelin.github.io/master/AN588_Fall23/KamilarAndCooperData.csv")
 d <- read.csv(f, header = TRUE, sep = ",", stringsAsFactors = FALSE)
 
-m <- lm( MaxLongevity_m ~ Brain_Size_Species_Mean , data = d)
+# Make the regression
+w <- d$MaxLongevity_m 
+h <- d$Brain_Size_Species_Mean
+m <- lm(w ~ h)
 m
-g <- ggplot(data = m, aes(x = MaxLongevity_m, y = Brain_Size_Species_Mean))
+g <- ggplot(data = m, aes(x = w, y = h)) 
+g <- g +labs(title="Regression of MaxLongevity ~ Brain_Size_Species_Mean",
+        x ="MaxLongevity_m", y = "Brain_Size_Species_Mean")
 g <- g + geom_point()
 g <- g + geom_smooth(method = "lm", formula = y ~ x)
+g <- g + annotate("text", x = 600, y = 300, label = "y=248.952x+1.218") 
+g <- g + geom_abline(intercept = 230.540738, slope = 1.035571, color = "red")
+g <- g + geom_abline(intercept = 267.36379, slope = 1.40041, color = "red")
 g
 
+# Regression of log version
 a<- log(d$MaxLongevity_m)
 b<- log(d$Brain_Size_Species_Mean)
 n <- lm(a ~ b)
 n
 g <- ggplot(data = n, aes(x = a, y = b))
+g <- g +labs(title="Regression of log(MaxLongevity) ~ log(Brain_Size_Species_Mean)",
+        x ="log(MaxLongevity_m)", y = "log(Brain_Size_Species_Mean)")
 g <- g + geom_point()
 g <- g + geom_smooth(method = "lm", formula = y ~ x)
+g <- g + annotate("text", x = 5, y = 3, label = "y=4.8790x+0.2341")
+g <- g + geom_abline(intercept = 4.7644934, slope = 0.2046396, color = "red")
+g <- g + geom_abline(intercept = 4.9934084, slope = 0.2636595, color = "red")
 g
+
+
+
 ```
+
+Identify and interpret the point estimate of the slope (β1
+), as well as the outcome of the test associated with the hypotheses H0: β1
+ = 0; HA: β1
+ ≠ 0. Also, find a 90 percent CI for the slope (β1
+) parameter.
+```{r CI, eval=FALSE}
+# Calculating beta1
+w <- d$MaxLongevity_m 
+h <- d$Brain_Size_Species_Mean
+beta1 <- cov(w, h)/var(w)
+beta1
+a<- log(d$MaxLongevity_m)
+b<- log(d$Brain_Size_Species_Mean)
+beta1 <- cov(a, b)/var(a) # Why does this give NA
+beta1
+
+# Confidence interval of MaxLongevity ~ Brain_Size_Species_Mean
+ci <- confint(m, level = 0.90)
+ci
+# Confidence interval of log(MaxLongevity) ~ log(Brain_Size_Species_Mean
+ci <- confint(n, level = 0.90)
+ci
+
+```
+Produce a point estimate and associated 90 percent PI for the longevity of a species whose brain weight is 800 gm. Do you trust the model to predict observations accurately for this value of the explanatory variable? Why or why not?
+```{r adding lines, eval=FALSE}
+
+```
+
+Looking at your two models, which do you think is better? Why?<br> 
+I think the log model is better because the error is better explained by the line.
+
+Sources: 
+https://ggplot2.tidyverse.org/reference/annotate.html <br>

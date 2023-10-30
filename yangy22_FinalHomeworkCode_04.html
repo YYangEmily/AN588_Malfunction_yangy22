@@ -187,53 +187,49 @@ distribution rather than worrying about calculating single-limit
 confidence bounds.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>n2 <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>x2 <span class="ot">&lt;-</span><span class="cn">NULL</span></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>phat <span class="ot">&lt;-</span> x<span class="sc">/</span>n  <span class="co"># estimate pi</span></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>phat</span></code></pre></div>
-<pre><code>## [1] 0.02</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="cf">if</span>(n<span class="sc">*</span>phat <span class="sc">&gt;</span> <span class="dv">5</span> <span class="sc">&amp;</span> n<span class="sc">*</span>(<span class="dv">1</span> <span class="sc">-</span> phat) <span class="sc">&gt;</span> <span class="dv">5</span>) {</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  Zprop<span class="ot">&lt;-</span> <span class="cf">function</span>(p1, p2, n1, n2, <span class="at">alternative =</span> <span class="st">&quot;two.sided&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.05</span>) { {</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>        p1 <span class="ot">&lt;-</span> x<span class="sc">/</span>n</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>        n1 <span class="ot">&lt;-</span> <span class="fu">length</span>(n)</span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>        p2 <span class="ot">&lt;-</span> x2<span class="sc">/</span>n2</span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>        n2 <span class="ot">&lt;-</span> <span class="fu">length</span>(n2)</span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>        pstar <span class="ot">&lt;-</span> x<span class="sc">+</span>x1<span class="sc">/</span>n<span class="sc">+</span>n1</span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>        <span class="cf">if</span> (alternative <span class="sc">==</span> <span class="st">&quot;one.tailed&quot;</span>) {</span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>            p[i] <span class="ot">&lt;-</span> (p1<span class="sc">-</span>phat)<span class="sc">/</span><span class="fu">sqrt</span>(phat<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>phat)<span class="sc">/</span>n)</span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>        }</span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>        <span class="cf">if</span> (alternative <span class="sc">==</span> <span class="st">&quot;two.tailed&quot;</span>) {</span>
-<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>            <span class="cf">if</span> (z <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
-<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>                p[i] <span class="ot">&lt;-</span> (p2<span class="sc">-</span>p1<span class="sc">-</span>phat)<span class="sc">/</span><span class="fu">sqrt</span>(pstar<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>pstar)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">/</span>n<span class="sc">+</span><span class="dv">1</span><span class="sc">/</span>n2))</span>
-<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>            }</span>
-<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>          </span>
-<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a>            }</span>
-<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a>            hyp <span class="ot">&lt;-</span> <span class="st">&quot;p2 ≠ p1&quot;</span></span>
-<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a>        }</span>
-<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a>    }</span>
-<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a></span>
-<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a></span>
-<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a>     Zprop<span class="ot">&lt;-</span> <span class="cf">function</span>(p1, p2, n1, n2, <span class="at">alternative =</span> <span class="st">&quot;two.sided&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.05</span>) { {</span>
-<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a>        p1 <span class="ot">&lt;-</span> x<span class="sc">/</span>n</span>
-<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a>        n1 <span class="ot">&lt;-</span> <span class="fu">length</span>(n)</span>
-<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a>        p2 <span class="ot">&lt;-</span> x2<span class="sc">/</span>n2</span>
-<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a>        n2 <span class="ot">&lt;-</span> <span class="fu">length</span>(n2)</span>
-<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a>        pstar <span class="ot">&lt;-</span> x<span class="sc">+</span>x1<span class="sc">/</span>n<span class="sc">+</span>n1</span>
-<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a>        <span class="cf">if</span> (alternative <span class="sc">==</span> <span class="st">&quot;one.tailed&quot;</span>) {</span>
-<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a>            p[i] <span class="ot">&lt;-</span> (p1<span class="sc">-</span>phat)<span class="sc">/</span><span class="fu">sqrt</span>(phat<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>phat)<span class="sc">/</span>n)</span>
-<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a>        }</span>
-<span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a>        <span class="cf">if</span> (alternative <span class="sc">==</span> <span class="st">&quot;two.tailed&quot;</span>) {</span>
-<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a>            <span class="cf">if</span> (z <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
-<span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a>                p[i] <span class="ot">&lt;-</span> (p2<span class="sc">-</span>p1<span class="sc">-</span>phat)<span class="sc">/</span><span class="fu">sqrt</span>(pstar<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>pstar)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">/</span>n<span class="sc">+</span><span class="dv">1</span><span class="sc">/</span>n2))</span>
-<span id="cb3-35"><a href="#cb3-35" tabindex="-1"></a>            }</span>
-<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a>          </span>
-<span id="cb3-37"><a href="#cb3-37" tabindex="-1"></a>            }</span>
-<span id="cb3-38"><a href="#cb3-38" tabindex="-1"></a>            hyp <span class="ot">&lt;-</span> <span class="st">&quot;p2 ≠ p1&quot;</span></span>
-<span id="cb3-39"><a href="#cb3-39" tabindex="-1"></a>        }</span>
-<span id="cb3-40"><a href="#cb3-40" tabindex="-1"></a>    }</span>
-<span id="cb3-41"><a href="#cb3-41" tabindex="-1"></a></span>
-<span id="cb3-42"><a href="#cb3-42" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&quot;Warning distribution not normal&quot;</span>)}</span></code></pre></div>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>Zprop<span class="ot">&lt;-</span> <span class="cf">function</span>(p1, <span class="at">p2=</span><span class="cn">NULL</span>, n1, <span class="at">n2=</span><span class="cn">NULL</span>, p0, <span class="at">alternative =</span> <span class="st">&quot;two.sided&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.05</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="cf">if</span>(n <span class="sc">*</span> p0 <span class="sc">&gt;</span> <span class="dv">5</span> <span class="sc">&amp;&amp;</span> n <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p0) <span class="sc">&gt;</span> <span class="dv">5</span>) {</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>   { {</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>        p1 <span class="ot">&lt;-</span> x<span class="sc">/</span>n</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>        n1 <span class="ot">&lt;-</span> <span class="fu">length</span>(n)</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>        p2 <span class="ot">&lt;-</span> x2<span class="sc">/</span>n2</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>        n2 <span class="ot">&lt;-</span> <span class="fu">length</span>(n2)</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>        p0 <span class="ot">&lt;-</span> x<span class="sc">+</span>x1<span class="sc">/</span>n<span class="sc">+</span>n1</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>        <span class="cf">if</span> (alternative <span class="sc">==</span> <span class="st">&quot;one.tailed&quot;</span>) {</span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>            p[i] <span class="ot">&lt;-</span> (p1<span class="sc">-</span>p0)<span class="sc">/</span><span class="fu">sqrt</span>(p0<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>p0)<span class="sc">/</span>n)</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>        }</span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>        <span class="cf">if</span> (alternative <span class="sc">==</span> <span class="st">&quot;two.tailed&quot;</span>) {</span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>            <span class="cf">if</span> (z <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>                p[i] <span class="ot">&lt;-</span> (p2<span class="sc">-</span>p1<span class="sc">-</span>p0)<span class="sc">/</span><span class="fu">sqrt</span>(pstar<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>pstar)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">/</span>n<span class="sc">+</span><span class="dv">1</span><span class="sc">/</span>n2))</span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>            }</span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a>          </span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a>            }</span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a>            hyp <span class="ot">&lt;-</span> <span class="st">&quot;p2 ≠ p1&quot;</span></span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a>        }</span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a>    }</span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a>     Zprop<span class="ot">&lt;-</span> <span class="cf">function</span>(p1, p2, n1, n2, <span class="at">alternative =</span> <span class="st">&quot;two.sided&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.05</span>) { {</span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a>        p1 <span class="ot">&lt;-</span> x<span class="sc">/</span>n</span>
+<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a>        n1 <span class="ot">&lt;-</span> <span class="fu">length</span>(n)</span>
+<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a>        p2 <span class="ot">&lt;-</span> x2<span class="sc">/</span>n2</span>
+<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a>        n2 <span class="ot">&lt;-</span> <span class="fu">length</span>(n2)</span>
+<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a>        pstar <span class="ot">&lt;-</span> x<span class="sc">+</span>x1<span class="sc">/</span>n<span class="sc">+</span>n1</span>
+<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a>        <span class="cf">if</span> (alternative <span class="sc">==</span> <span class="st">&quot;one.tailed&quot;</span>) {</span>
+<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a>            p[i] <span class="ot">&lt;-</span> (p1<span class="sc">-</span>phat)<span class="sc">/</span><span class="fu">sqrt</span>(phat<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>phat)<span class="sc">/</span>n)</span>
+<span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a>        }</span>
+<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a>        <span class="cf">if</span> (alternative <span class="sc">==</span> <span class="st">&quot;two.tailed&quot;</span>) {</span>
+<span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a>            <span class="cf">if</span> (z <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a>                p[i] <span class="ot">&lt;-</span> (p2<span class="sc">-</span>p1<span class="sc">-</span>phat)<span class="sc">/</span><span class="fu">sqrt</span>(pstar<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>pstar)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">/</span>n<span class="sc">+</span><span class="dv">1</span><span class="sc">/</span>n2))</span>
+<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a>            }</span>
+<span id="cb1-39"><a href="#cb1-39" tabindex="-1"></a>          </span>
+<span id="cb1-40"><a href="#cb1-40" tabindex="-1"></a>            }</span>
+<span id="cb1-41"><a href="#cb1-41" tabindex="-1"></a>            hyp <span class="ot">&lt;-</span> <span class="st">&quot;p2 ≠ p1&quot;</span></span>
+<span id="cb1-42"><a href="#cb1-42" tabindex="-1"></a>        }</span>
+<span id="cb1-43"><a href="#cb1-43" tabindex="-1"></a>    }</span>
+<span id="cb1-44"><a href="#cb1-44" tabindex="-1"></a></span>
+<span id="cb1-45"><a href="#cb1-45" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&quot;Warning distribution not normal&quot;</span>)}</span></code></pre></div>
 <p>I cobbled this together from a bunch of modules but I’m not sure how
 to test it.</p>
 </div>
@@ -241,39 +237,75 @@ to test it.</p>
 <h2>Question 2</h2>
 <p>Fit the regression model and, using {ggplot2}, produce a scatterplot
 with the fitted line superimposed upon the data. Append the the fitted
-model equation to your plot (HINT: use the function geom_text()).
-Identify and interpret the point estimate of the slope (β1 ), as well as
-the outcome of the test associated with the hypotheses H0: β1 = 0; HA:
-β1 ≠ 0. Also, find a 90 percent CI for the slope (β1 ) parameter. Using
-your model, add lines for the 90 percent confidence and prediction
-interval bands on the plot and add a legend to differentiate between the
-lines. Produce a point estimate and associated 90 percent PI for the
+model equation to your plot (HINT: use the function geom_text()).</p>
+<p>Using your model, add lines for the 90 percent confidence and
+prediction interval bands on the plot and add a legend to differentiate
+between the lines</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(curl)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">curl</span>(<span class="st">&quot;https://raw.githubusercontent.com/fuzzyatelin/fuzzyatelin.github.io/master/AN588_Fall23/KamilarAndCooperData.csv&quot;</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(f, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co"># Make the regression</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>w <span class="ot">&lt;-</span> d<span class="sc">$</span>MaxLongevity_m </span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>h <span class="ot">&lt;-</span> d<span class="sc">$</span>Brain_Size_Species_Mean</span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">lm</span>(w <span class="sc">~</span> h)</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>m</span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> m, <span class="fu">aes</span>(<span class="at">x =</span> w, <span class="at">y =</span> h)) </span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>g <span class="ot">&lt;-</span> g <span class="sc">+</span><span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Regression of MaxLongevity ~ Brain_Size_Species_Mean&quot;</span>,</span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>        <span class="at">x =</span><span class="st">&quot;MaxLongevity_m&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Brain_Size_Species_Mean&quot;</span>)</span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a>g <span class="ot">&lt;-</span> g <span class="sc">+</span> <span class="fu">geom_point</span>()</span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a>g <span class="ot">&lt;-</span> g <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x)</span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a>g <span class="ot">&lt;-</span> g <span class="sc">+</span> <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="dv">600</span>, <span class="at">y =</span> <span class="dv">300</span>, <span class="at">label =</span> <span class="st">&quot;y=248.952x+1.218&quot;</span>) </span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a>g <span class="ot">&lt;-</span> g <span class="sc">+</span> <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="fl">230.540738</span>, <span class="at">slope =</span> <span class="fl">1.035571</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>g <span class="ot">&lt;-</span> g <span class="sc">+</span> <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="fl">267.36379</span>, <span class="at">slope =</span> <span class="fl">1.40041</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a>g</span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a><span class="co"># Regression of log version</span></span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a>a<span class="ot">&lt;-</span> <span class="fu">log</span>(d<span class="sc">$</span>MaxLongevity_m)</span>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a>b<span class="ot">&lt;-</span> <span class="fu">log</span>(d<span class="sc">$</span>Brain_Size_Species_Mean)</span>
+<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">lm</span>(a <span class="sc">~</span> b)</span>
+<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a>n</span>
+<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> n, <span class="fu">aes</span>(<span class="at">x =</span> a, <span class="at">y =</span> b))</span>
+<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a>g <span class="ot">&lt;-</span> g <span class="sc">+</span><span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Regression of log(MaxLongevity) ~ log(Brain_Size_Species_Mean)&quot;</span>,</span>
+<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a>        <span class="at">x =</span><span class="st">&quot;log(MaxLongevity_m)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;log(Brain_Size_Species_Mean)&quot;</span>)</span>
+<span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a>g <span class="ot">&lt;-</span> g <span class="sc">+</span> <span class="fu">geom_point</span>()</span>
+<span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a>g <span class="ot">&lt;-</span> g <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x)</span>
+<span id="cb2-33"><a href="#cb2-33" tabindex="-1"></a>g <span class="ot">&lt;-</span> g <span class="sc">+</span> <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="dv">5</span>, <span class="at">y =</span> <span class="dv">3</span>, <span class="at">label =</span> <span class="st">&quot;y=4.8790x+0.2341&quot;</span>)</span>
+<span id="cb2-34"><a href="#cb2-34" tabindex="-1"></a>g <span class="ot">&lt;-</span> g <span class="sc">+</span> <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="fl">4.7644934</span>, <span class="at">slope =</span> <span class="fl">0.2046396</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb2-35"><a href="#cb2-35" tabindex="-1"></a>g <span class="ot">&lt;-</span> g <span class="sc">+</span> <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="fl">4.9934084</span>, <span class="at">slope =</span> <span class="fl">0.2636595</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb2-36"><a href="#cb2-36" tabindex="-1"></a>g</span></code></pre></div>
+<p>Identify and interpret the point estimate of the slope (β1 ), as well
+as the outcome of the test associated with the hypotheses H0: β1 = 0;
+HA: β1 ≠ 0. Also, find a 90 percent CI for the slope (β1 )
+parameter.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Calculating beta1</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>w <span class="ot">&lt;-</span> d<span class="sc">$</span>MaxLongevity_m </span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>h <span class="ot">&lt;-</span> d<span class="sc">$</span>Brain_Size_Species_Mean</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>beta1 <span class="ot">&lt;-</span> <span class="fu">cov</span>(w, h)<span class="sc">/</span><span class="fu">var</span>(w)</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>beta1</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>a<span class="ot">&lt;-</span> <span class="fu">log</span>(d<span class="sc">$</span>MaxLongevity_m)</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>b<span class="ot">&lt;-</span> <span class="fu">log</span>(d<span class="sc">$</span>Brain_Size_Species_Mean)</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>beta1 <span class="ot">&lt;-</span> <span class="fu">cov</span>(a, b)<span class="sc">/</span><span class="fu">var</span>(a) <span class="co"># Why does this give NA</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>beta1</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co"># Confidence interval of MaxLongevity ~ Brain_Size_Species_Mean</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>ci <span class="ot">&lt;-</span> <span class="fu">confint</span>(m, <span class="at">level =</span> <span class="fl">0.90</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>ci</span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co"># Confidence interval of log(MaxLongevity) ~ log(Brain_Size_Species_Mean</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>ci <span class="ot">&lt;-</span> <span class="fu">confint</span>(n, <span class="at">level =</span> <span class="fl">0.90</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a>ci</span></code></pre></div>
+<p>Produce a point estimate and associated 90 percent PI for the
 longevity of a species whose brain weight is 800 gm. Do you trust the
 model to predict observations accurately for this value of the
-explanatory variable? Why or why not? Looking at your two models, which
-do you think is better? Why?</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">library</span>(curl)</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">curl</span>(<span class="st">&quot;https://raw.githubusercontent.com/fuzzyatelin/fuzzyatelin.github.io/master/AN588_Fall23/KamilarAndCooperData.csv&quot;</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(f, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">lm</span>( MaxLongevity_m <span class="sc">~</span> Brain_Size_Species_Mean , <span class="at">data =</span> d)</span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>m</span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> m, <span class="fu">aes</span>(<span class="at">x =</span> MaxLongevity_m, <span class="at">y =</span> Brain_Size_Species_Mean))</span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>g <span class="ot">&lt;-</span> g <span class="sc">+</span> <span class="fu">geom_point</span>()</span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>g <span class="ot">&lt;-</span> g <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x)</span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>g</span>
-<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a></span>
-<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>a<span class="ot">&lt;-</span> <span class="fu">log</span>(d<span class="sc">$</span>MaxLongevity_m)</span>
-<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>b<span class="ot">&lt;-</span> <span class="fu">log</span>(d<span class="sc">$</span>Brain_Size_Species_Mean)</span>
-<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">lm</span>(a <span class="sc">~</span> b)</span>
-<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>n</span>
-<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> n, <span class="fu">aes</span>(<span class="at">x =</span> a, <span class="at">y =</span> b))</span>
-<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a>g <span class="ot">&lt;-</span> g <span class="sc">+</span> <span class="fu">geom_point</span>()</span>
-<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a>g <span class="ot">&lt;-</span> g <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">formula =</span> y <span class="sc">~</span> x)</span>
-<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a>g</span></code></pre></div>
+explanatory variable? Why or why not?</p>
+<p>Looking at your two models, which do you think is better? Why?<br> I
+think the log model is better because the error is better explained by
+the line.</p>
+<p>Sources: <a href="https://ggplot2.tidyverse.org/reference/annotate.html" class="uri">https://ggplot2.tidyverse.org/reference/annotate.html</a>
+<br></p>
 </div>
 </section>
 
