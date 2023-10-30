@@ -1,0 +1,107 @@
+---
+title: "yangy22_FinalHomeworkCode_04"
+author: "Emily Yang"
+date: "`r Sys.Date()`"
+output: 
+  prettydoc::html_pretty:
+    theme: cayman
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Problem 1
+
+Write a simple R function, Z.prop.test(), that can perform one- or two-sample Z-tests for proportion data, using the following guidelines:
+
+Your function should take the following arguments: p1 and n1 (no default) representing the estimated proportion and sample size (i.e., based on your sample data); p2 and n2 (both defaulting to NULL) that contain a second sample’s proportion and sample size data in the event of a two-sample test; p0 (no default) as the expected value for the population proportion; and alternative (default “two.sided”) and conf.level (default 0.95), to be used in the same way as in the function t.test().
+
+Your function should take the following arguments: p1 and n1 (no default) representing the estimated proportion and sample size (i.e., based on your sample data); p2 and n2 (both defaulting to NULL) that contain a second sample’s proportion and sample size data in the event of a two-sample test; p0 (no default) as the expected value for the population proportion; and alternative (default “two.sided”) and conf.level (default 0.95), to be used in the same way as in the function t.test().
+
+When conducting a two-sample test, it should be p1 that is tested as being smaller or larger than p2 when alternative=“less” or alternative=“greater”, the same as in the use of x and y in the function t.test().
+The function should perform a one-sample Z-test using p1, n1, and p0 if either p2 or n2 (or both) is NULL.
+The function should contain a check for the rules of thumb we have talked about (n∗p>5
+ and n∗(1−p)>5
+) to ensure the validity of assuming the normal distribution in both the one- and two-sample settings. If this is violated, the function should still complete but it should also print an appropriate warning message.
+The function should return a list containing the members Z (the test statistic), P (the appropriate p value), and CI (the two-sided CI with respect to “conf.level” around p1 in the case of a one-sample test and around p2-p1 in the case of a two-sample test). For all test alternatives (“two.sided”, “greater”, “less”), calculate symmetric CIs based on quantiles of the normal distribution rather than worrying about calculating single-limit confidence bounds.
+```{r Zprop}
+
+n <- 1000
+x <- 20
+n2 <- NULL
+x2 <-NULL
+phat <- x/n  # estimate pi
+phat
+
+if(n*phat > 5 & n*(1 - phat) > 5) {
+  Zprop<- function(p1, p2, n1, n2, alternative = "two.sided", alpha = 0.05) { {
+        p1 <- x/n
+        n1 <- length(n)
+        p2 <- x2/n2
+        n2 <- length(n2)
+        pstar <- x+x1/n+n1
+        if (alternative == "one.tailed") {
+            p[i] <- (p1-phat)/sqrt(phat*(1-phat)/n)
+        }
+        if (alternative == "two.tailed") {
+            if (z > 0) {
+                p[i] <- (p2-p1-phat)/sqrt(pstar*(1-pstar)/(1/n+1/n2))
+            }
+          
+            }
+            hyp <- "p2 ≠ p1"
+        }
+    }
+
+
+} else {
+     Zprop<- function(p1, p2, n1, n2, alternative = "two.sided", alpha = 0.05) { {
+        p1 <- x/n
+        n1 <- length(n)
+        p2 <- x2/n2
+        n2 <- length(n2)
+        pstar <- x+x1/n+n1
+        if (alternative == "one.tailed") {
+            p[i] <- (p1-phat)/sqrt(phat*(1-phat)/n)
+        }
+        if (alternative == "two.tailed") {
+            if (z > 0) {
+                p[i] <- (p2-p1-phat)/sqrt(pstar*(1-pstar)/(1/n+1/n2))
+            }
+          
+            }
+            hyp <- "p2 ≠ p1"
+        }
+    }
+
+  print("Warning distribution not normal")}
+
+```
+I cobbled this together from a bunch of modules but I'm not sure how to test it.
+
+## Question 2
+```{r Question 2, eval=FALSE}
+library(curl)
+library(ggplot2)
+library(tidyverse)
+
+f <- curl("https://raw.githubusercontent.com/fuzzyatelin/fuzzyatelin.github.io/master/AN588_Fall23/KamilarAndCooperData.csv")
+d <- read.csv(f, header = TRUE, sep = ",", stringsAsFactors = FALSE)
+
+m <- lm( MaxLongevity_m ~ Brain_Size_Species_Mean , data = d)
+m
+g <- ggplot(data = m, aes(x = MaxLongevity_m, y = Brain_Size_Species_Mean))
+g <- g + geom_point()
+g <- g + geom_smooth(method = "lm", formula = y ~ x)
+g
+
+a<- log(d$MaxLongevity_m)
+b<- log(d$Brain_Size_Species_Mean)
+n <- lm(a ~ b)
+n
+g <- ggplot(data = n, aes(x = a, y = b))
+g <- g + geom_point()
+g <- g + geom_smooth(method = "lm", formula = y ~ x)
+g
+```
