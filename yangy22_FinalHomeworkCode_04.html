@@ -301,6 +301,13 @@ parameter.</p>
 longevity of a species whose brain weight is 800 gm. Do you trust the
 model to predict observations accurately for this value of the
 explanatory variable? Why or why not?</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Predicting longevity</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>pi <span class="ot">&lt;-</span> <span class="fu">predict</span>(m, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">w =</span> <span class="dv">800</span>), <span class="at">interval =</span> <span class="st">&quot;prediction&quot;</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>    <span class="at">level =</span> <span class="fl">0.90</span>) </span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>pi</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>pi <span class="ot">&lt;-</span> <span class="fu">predict</span>(n, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">b =</span> <span class="dv">800</span>), <span class="at">interval =</span> <span class="st">&quot;prediction&quot;</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>    <span class="at">level =</span> <span class="fl">0.90</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>pi</span></code></pre></div>
 <p>Looking at your two models, which do you think is better? Why?<br> I
 think the log model is better because the error is better explained by
 the line.</p>
